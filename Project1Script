@@ -1,0 +1,85 @@
+#!/bin/bash
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+TESTCASECOUNTER=0
+
+TestCase() {
+    Username=$1
+    Age=$2
+    UserStatus=$3
+    RewardMemberStatus=$4
+    Season=$5
+    Product=$6
+    Rating=$7
+    expected=$8
+
+    TESTCASECOUNTER=$((TESTCASECOUNTER + 1))
+    output=$(java -jar CSE565P1.jar $1 $2 $3 $4 $5 $6 $7)
+    if [[ "$output" == "$expected" ]]; then
+        echo -e "   Test Case $TESTCASECOUNTER: ${GREEN}Passed${NC}"
+    else
+        echo -e "   Test Case $TESTCASECOUNTER: ${RED}Failed: got $output, expected $expected${NC}"
+    fi
+}
+#ADD TEST CASES BELOW
+echo Username Boundry Analysis
+TestCase abcd 25 Returning Bronze Winter Electronics 5 "Username length invalid"
+TestCase abcde 25 Returning Bronze Winter Electronics 5 "No discount given"
+TestCase abcdef 25 Returning Bronze Winter Electronics 5 "No discount given"
+TestCase abcdefghi 25 Returning Bronze Winter Electronics 5 "No discount given"
+TestCase abcdefghij 25 Returning Bronze Winter Electronics 5 "No discount given"
+TestCase abcdefghijk 25 Returning Bronze Winter Electronics 5 "Username length invalid"
+TestCase 12345678 25 Returning Bronze Winter Electronics 5 "Username contains digits"
+TestCase ________ 25 Returning Bronze Winter Electronics 5 "Username contains _"
+TestCase "-------" 25 Returning Bronze Winter Electronics 5 "Username contains -"
+echo Age Boundry Analysis
+TestCase Username 17 Returning Bronze Winter Electronics 5 "You must be 18 or older to register in the database"
+TestCase Username 18 Returning Bronze Winter Electronics 5 "No discount given"
+TestCase Username 19 Returning Bronze Winter Electronics 5 "No discount given"
+echo Rating Boundry Analysis
+TestCase Username 25 Returning Bronze Winter Electronics 0 "Rating must be between 1 and 10"
+TestCase Username 25 Returning Bronze Winter Electronics 1 "No discount given"
+TestCase Username 25 Returning Bronze Winter Electronics 2 "No discount given"
+TestCase Username 25 Returning Bronze Winter Electronics 9 "No discount given"
+TestCase Username 25 Returning Bronze Winter Electronics 10 "No discount given"
+TestCase Username 25 Returning Bronze Winter Electronics 11 "Rating must be between 1 and 10"
+echo User Status Cause Effect Analysis
+TestCase Username 25 New Bronze Winter Electronics 5 "No discount given"
+TestCase Username 25 New Bronze Spring Electronics 5 "No discount given"
+TestCase Username 25 New Bronze Summer Electronics 5 "No discount given"
+TestCase Username 25 New Bronze Fall Electronics 5 "No discount given"
+TestCase Username 25 New Silver Winter Electronics 5 "No discount given"
+TestCase Username 25 New Silver Spring Electronics 5 "No discount given"
+TestCase Username 25 New Silver Summer Electronics 5 "No discount given"
+TestCase Username 25 New Silver Fall Electronics 5 "No discount given"
+TestCase Username 25 New Gold Winter Electronics 5 "No discount given"
+TestCase Username 25 New Gold Spring Electronics 5 "No discount given"
+TestCase Username 25 New Gold Summer Electronics 5 "No discount given"
+TestCase Username 25 New Gold Fall Electronics 5 "No discount given"
+echo Product Category Cause Effect Analysis
+TestCase Username 25 Returning Bronze Winter Unknown 5 "No discount given"
+TestCase Username 25 Returning Bronze Spring Unknown 5 "No discount given"
+TestCase Username 25 Returning Bronze Summer Unknown 5 "No discount given"
+TestCase Username 25 Returning Bronze Fall Unknown 5 "No discount given"
+TestCase Username 25 Returning Silver Winter Unknown 5 "No discount given"
+TestCase Username 25 Returning Silver Spring Unknown 5 "No discount given"
+TestCase Username 25 Returning Silver Summer Unknown 5 "No discount given"
+TestCase Username 25 Returning Silver Fall Unknown 5 "No discount given"
+TestCase Username 25 Returning Gold Winter Unknown 5 "No discount given"
+TestCase Username 25 Returning Gold Spring Unknown 5 "No discount given"
+TestCase Username 25 Returning Gold Summer Unknown 5 "No discount given"
+TestCase Username 25 Returning Gold Fall Unknown 5 "No discount given"
+echo Discounts Cause Effect Analysis
+TestCase Username 25 Returning Gold Summer Electronics 5 "The discount given is 15%"
+TestCase Username 25 Returning Bronze Spring Electronics 5 "The discount given is 10%"
+TestCase Username 25 Returning Gold Winter Electronics 5 "The discount given is 25%"
+TestCase Username 25 Returning Silver Fall Electronics 5 "The discount given is 15%"
+TestCase Username 25 Returning Bronze Winter Electronics 5 "No discount given"
+TestCase Username 25 Returning Bronze Summer Electronics 5 "No discount given"
+TestCase Username 25 Returning Bronze Fall Electronics 5 "No discount given"
+TestCase Username 25 Returning Silver Winter Electronics 5 "No discount given"
+TestCase Username 25 Returning Silver Spring Electronics 5 "No discount given"
+TestCase Username 25 Returning Silver Summer Electronics 5 "No discount given"
+TestCase Username 25 Returning Gold Spring Electronics 5 "No discount given"
+TestCase Username 25 Returning Gold Fall Electronics 5 "No discount given"
