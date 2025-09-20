@@ -1,0 +1,24 @@
+---
+title: TestCaseGenerator.sh
+---
+stateDiagram-v2
+    [*] --> CheckArguments
+
+    CheckArguments --> Blackbox
+    Blackbox --> Boundary_Analysis
+    Blackbox --> Cause_Effect_Analysis
+    Boundary_Analysis --> CSV
+    Cause_Effect_Analysis --> CSV
+    
+    CheckArguments --> Whitebox
+    Whitebox --> Bash
+    Whitebox --> Python
+    Whitebox --> Java
+    Whitebox --> C
+    Whitebox --> C++
+    Whitebox --> C#
+    Whitebox --> JavaScript
+    Whitebox --> TypeScript
+
+    CheckArguments --> None
+    None --> [*]
